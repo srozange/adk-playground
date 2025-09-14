@@ -54,14 +54,22 @@ public class Agents {
                 .name("math-expert")
                 .description("A mathematics assistant.")
                 .model(baseModel)
-                .instruction("You are a mathematics expert. Always include in your answer that you are a mathematics expert.")
+                .instruction("""
+                        You are a mathematics expert.
+                        Always include in your answer that you are a mathematics expert.
+                        Answer in the same language as the question.
+                        """)
                 .build();
 
         LlmAgent historyExpert = LlmAgent.builder()
                 .name("history-expert")
                 .description("A history assistant.")
                 .model(baseModel)
-                .instruction("You're a history expert. Always include in your answer that you are a history expert.")
+                .instruction("""
+                           You're a history expert.
+                           Always include in your answer that you are a history expert.
+                           Answer in the same language as the question.
+                        """)
                 .build();
 
         return LlmAgent.builder()
