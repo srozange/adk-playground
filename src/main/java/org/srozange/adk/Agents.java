@@ -19,6 +19,9 @@ import io.reactivex.rxjava3.core.Maybe;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static java.lang.System.getenv;
@@ -99,7 +102,15 @@ public class Agents {
                 Flowable<Event> events = runner.runAsync(session, userMsg, RunConfig.builder().build());
                 System.out.print("\nAgent > ");
                 events.blockingForEach(event -> {
-                    System.out.println(event.stringifyContent());
+                    StringBuilder response = new StringBuilder();
+                    event.content().flatMap(Content::parts).stream().flatMap(Collection::stream).forEach((part) -> {
+                        part.functionCall().ifPresent((functionCall) -> response.append("function call : ")
+                                .append(functionCall.name().get())
+                                .append(" ")
+                                .append(functionCall.args().get()));
+                        part.text().ifPresent(response::append);
+                    });
+                    System.out.println(response);
                 });
             }
         }
