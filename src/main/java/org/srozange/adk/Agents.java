@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Scanner;
 
 import static java.lang.System.getenv;
@@ -42,6 +43,7 @@ public class Agents {
             baseModel = new LangChain4j(OllamaChatModel.builder()
                     .modelName("qwen2.5:3b")
                     .baseUrl("http://localhost:11434")
+                    .timeout(Duration.ofMinutes(2))
                     .build());
         }
 
